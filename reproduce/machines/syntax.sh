@@ -5,6 +5,11 @@
 # Not yet run here. Build first, matching KOKKOS_ARCH to the partition
 # (HOPPER90 for h100/h200, AMPERE80 for a100, AMPERE86 for a10/a40):
 #   ~/ai-notes/scripts/prepare_athenak.py --device gpu --arch HOPPER90
+#
+# Submit from the repository root:
+#   sbatch -p h200 --gres=gpu:1 -n 1 -t 00:30:00 \
+#     -o /gpfs/jeonggyukim/athenak-chem/logs/turb64-%j.out \
+#     reproduce/run_turb64.sh drive ic si
 AK=${ATHENAK_ROOT:-$HOME/athenak-sweep}
 AP=${ATHENAPP_ROOT:-$HOME/athena-pp}
 AKBIN=${AKBIN:-$AK/build-gpu-${KOKKOS_ARCH:-HOPPER90}/src/athena}

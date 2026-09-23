@@ -1,0 +1,59 @@
+diff --git a/src/pgen/read_vtk.cpp b/src/pgen/read_vtk.cpp
+index e3b2385..84a47ac 100644
+--- a/src/pgen/read_vtk.cpp
++++ b/src/pgen/read_vtk.cpp
+@@ -143,8 +143,8 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("Start to MPI broadcast density.\n");
+         }
+-        ierr = MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
+-                         MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
++        MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
++                  MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
+         if (DEBUG) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("End MPI brocast density.\n");
+@@ -169,8 +169,8 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("Start to MPI broadcast pressure.\n");
+         }
+-        ierr = MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
+-                         MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
++        MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
++                  MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
+         if (DEBUG) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("End MPI brocast pressure.\n");
+@@ -204,8 +204,8 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("Start to MPI broadcast velocity 0.\n");
+         }
+-        ierr = MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
+-                         MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
++        MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
++                  MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
+         if (DEBUG) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("End MPI brocast velocity 0.\n");
+@@ -227,8 +227,8 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("Start to MPI broadcast velocity 1.\n");
+         }
+-        ierr = MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
+-                         MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
++        MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
++                  MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
+         if (DEBUG) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("End MPI brocast velocity 1.\n");
+@@ -250,8 +250,8 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("Start to MPI broadcast velocity 2.\n");
+         }
+-        ierr = MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
+-                         MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
++        MPI_Bcast(data.data(), Nx_mesh*Ny_mesh*Nz_mesh,
++                  MPI_ATHENA_REAL, 0, MPI_COMM_WORLD);
+         if (DEBUG) {
+           MPI_Barrier(MPI_COMM_WORLD);
+           printf("End MPI brocast velocity 2.\n");

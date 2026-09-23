@@ -15,20 +15,16 @@
 #   join   merge the Athena++ per-MeshBlock VTK files of each dump into joined/
 #   plot   history from the .hst files, history from the dumps, and slice
 #          comparisons (final frame and movie)
-# Times are for 8 ranks on the MacBook.
+# Times are for 8 ranks on an Apple-silicon MacBook Pro.
 #
-# Machine settings come from machines/<machine>.sh, picked by hostname or by
-# MACHINE=mac|grammar|syntax. Every setting there can be overridden from the
-# environment (ATHENAK_ROOT, ATHENAPP_ROOT, AKBIN, APBIN, CHEMDATA, PYATHENA, NP).
+# Paths and rank count come from machines/<MACHINE>.sh. MACHINE defaults to the
+# author's profile on the author's hosts (mac, grammar, syntax) and to default
+# everywhere else; CHEM_MACHINE names any other profile file. Every setting can
+# be overridden from the environment (ATHENAK_ROOT, ATHENAPP_ROOT, AKBIN, APBIN,
+# CHEMDATA, PYATHENA, NP).
 #
-# On the KIAS clusters submit from the repository root, since Slurm runs a
-# spooled copy of this file and cannot locate reproduce/ from it:
-#   grammar: sbatch -p normal -N 1 -n 8 --mem-per-cpu=2G -t 01:00:00 \
-#              -o /gpfs/jeonggyukim/athenak-chem/logs/turb64-%j.out \
-#              reproduce/run_turb64.sh
-#   syntax:  sbatch -p h200 --gres=gpu:1 -n 1 -t 00:30:00 \
-#              -o /gpfs/jeonggyukim/athenak-chem/logs/turb64-%j.out \
-#              reproduce/run_turb64.sh drive ic si
+# Under Slurm, submit from the repository root: Slurm runs a spooled copy of
+# this file, which cannot locate reproduce/ from its own path.
 #
 # Output goes to $CHEMDATA. A stage refuses to overwrite a run directory that
 # already holds run.out; move it aside or point CHEMDATA elsewhere.
@@ -42,14 +38,15 @@ fi
 
 if [ -z "$MACHINE" ]; then
   case $(hostname -s) in
+    Jeong-Gyus-MacBook-Pro*) MACHINE=mac ;;
     grammar*) MACHINE=grammar ;;
     syntax|syn[0-9]*) MACHINE=syntax ;;
-    *MacBook*) MACHINE=mac ;;
-    *) echo "ERROR  unknown host $(hostname -s); set MACHINE=mac|grammar|syntax" >&2
-       exit 1 ;;
+    *) MACHINE=default ;;
   esac
 fi
-source "$HERE/machines/$MACHINE.sh"
+source "${CHEM_MACHINE:-$HERE/machines/$MACHINE.sh}"
+# The python scripts find AthenaK's bin_convert.py through this.
+export ATHENAK_ROOT=$AK
 
 # The smoke test runs every stage for 20 cycles, into its own directory, with
 # figures beside the data rather than in the repository.
@@ -124,7 +121,7 @@ run() {
   tail -3 "$dir/time.txt"
 }
 
-echo "date: $(date '+%Y-%m-%d %H:%M'), machine: $MACHINE, stages: $STAGES" \
+echo "date: $(date '+%Y-%m-%d %H:%M'), host: $(hostname -s), machine: $MACHINE, stages: $STAGES" \
   "${SMOKE:+(smoke)}" >> "$DATA/versions.txt"
 stamp athenak "$AK"
 stamp athena-pp "$AP"
