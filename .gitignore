@@ -1,0 +1,20 @@
+# Bulky or machine-specific things that should not travel with a shared repo.
+*.vtk
+*.bin
+*.athdf
+*.hdf5
+*.h5
+*.npz
+*.mp4
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+
+# Figure output stays out until a figure is near final. The script is the
+# tracked artifact; run it to get the figure.
+figures/*.pdf
+figures/*.png
+
+# Simulation output never enters this repository. It lives in $CHEMDATA
+# (default ~/Documents/Athenak-chem-tests/turb64).
+data/
